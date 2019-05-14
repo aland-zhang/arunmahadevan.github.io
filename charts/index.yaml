@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  testapp:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-05-13T17:05:43.235195-07:00
+    description: A Helm chart for test app
+    digest: 815c263d11e3ed6329a3e6a8df5907adca69c0c00838f60e9422d00145cb44db
+    name: testapp
+    urls:
+    - https://arunmahadevan.github.io/charts/testapp-0.1.0.tgz
+    version: 0.1.0
+generated: 2019-05-13T17:05:43.231192-07:00
