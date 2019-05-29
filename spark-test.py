@@ -21,7 +21,7 @@ def checkStatus(**kwargs):
             break
         print('Status: ' + status)
     print('Done')
-    return value
+    return batchId
 
 def logPi(**kwargs):
     batchId = kwargs['ti'].xcom_pull(task_ids='checkStatus')
