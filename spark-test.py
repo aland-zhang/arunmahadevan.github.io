@@ -1,16 +1,49 @@
 import json
+import requests
+import time
 from airflow import DAG
-from airflow.operators.bash_operator import BashOperator
-from airflow.operators.http_operator import SimpleHttpOperator
+from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
 import os
 
-os.environ['AIRFLOW_CONN_LIVY'] = 'http://spark-test-livy.spark-test'
+LIVY_URL = 'http://spark-test-livy.spark-test/batches'
+
+def checkStatus(**kwargs):
+    batchId = kwargs['ti'].xcom_pull(task_ids='task1')
+    print('Waiting for batch id: ' + batchId + ' to complete')
+    while True:
+        time.sleep(5)
+        r = requests.get(url = URL + "/" + batchId)
+        data = r.json()
+        #print(data)
+        status = data['state']
+        if status == 'success':
+            break
+        print('Status: ' + status)
+    print('Done')
+    return value
+
+def logPi(**kwargs):
+    batchId = kwargs['ti'].xcom_pull(task_ids='task2')
+    r = requests.get(url = URL + "/" + batchId + "/log")
+    data = r.json()
+    for line in data['log']:
+        if line.startswith('Pi is'):
+            print(line)
+
+def submitJob():
+    payload = {"file": "local:///opt/spark/examples/jars/spark-examples_2.11-2.4.2.jar", "className": "org.apache.spark.examples.SparkPi", "args": ["1000"]}
+    r = requests.post(url = URL, data=json.dumps(payload), headers={"Content-Type": "application/json"})
+    data = r.json()
+    print(data)
+    id=data['id']
+    return str(id)
+
 
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2019, 5, 27),
+    'start_date': datetime(2019, 5, 28),
     'email': ['arunm@cloudera.com'],
     'email_on_failure': True,
     'email_on_retry': True,
@@ -22,23 +55,28 @@ dag = DAG(
     'spark-test',
     default_args=default_args,
     description='Spark test DAG',
-    schedule_interval='*/1 * * * *',
+    schedule_interval='*/2 * * * *',
     catchup=False
 )
 
-t1 = BashOperator(
-    task_id='date',
-    bash_command='date',
+t1 = PythonOperator(
+    task_id='task1',
+    python_callable=submitJob,
     dag=dag,
 )
 
-t2 = SimpleHttpOperator(
-    task_id='spark-pi',
-    http_conn_id='LIVY',
-    endpoint='batches',
-    data=json.dumps({"file": "local:///opt/spark/examples/jars/spark-examples_2.11-2.4.2.jar", "className": "org.apache.spark.examples.SparkPi", "args": ["5000"]}),
-    headers={"Content-Type": "application/json"},
+t2 = PythonOperator(
+    task_id='task2',
+    python_callable=checkStatus,
+    provide_context=True,
     dag=dag,
 )
 
-t2.set_upstream(t1)
+t3 = PythonOperator(
+    task_id='task3',
+    python_callable=logPi,
+    provide_context=True,
+    dag=dag,
+)
+
+t1 >> t2 >> t3
