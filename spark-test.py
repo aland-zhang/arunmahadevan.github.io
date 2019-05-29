@@ -1,12 +1,15 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
+from airflow.operators.http_operator import SimpleHttpOperator
 from datetime import datetime, timedelta
+import os
 
+os.environ['AIRFLOW_CONN_LIVY'] = 'http://spark-test-livy.spark-test'
 
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2019, 5, 20),
+    'start_date': datetime(2019, 5, 27),
     'email': ['arunm@cloudera.com'],
     'email_on_failure': True,
     'email_on_retry': True,
@@ -28,9 +31,12 @@ t1 = BashOperator(
     dag=dag,
 )
 
-t2 = BashOperator(
+t2 = SimpleHttpOperator(
     task_id='spark-pi',
-    bash_command='curl -H "Content-Type: application/json" -X POST -d "{\"file\": \"local:///opt/spark/examples/jars/spark-examples_2.11-2.4.2.jar\", \"className\": \"org.apache.spark.examples.SparkPi\", \"args\": [\"5000\"]}" "http://spark-test-livy.spark-test/batches"',
+    http_conn_id='LIVY',
+    endpoint='batches',
+    data=json.dumps({"file": "local:///opt/spark/examples/jars/spark-examples_2.11-2.4.2.jar", "className": "org.apache.spark.examples.SparkPi", "args": ["5000"]}),
+    headers={"Content-Type": "application/json"},
     dag=dag,
 )
 
