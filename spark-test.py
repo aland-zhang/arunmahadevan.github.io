@@ -1,3 +1,4 @@
+import json
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.http_operator import SimpleHttpOperator
