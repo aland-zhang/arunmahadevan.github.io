@@ -13,7 +13,7 @@ def checkStatus(**kwargs):
     print('Waiting for batch id: ' + batchId + ' to complete')
     while True:
         time.sleep(5)
-        r = requests.get(url = URL + "/" + batchId)
+        r = requests.get(url = LIVY_URL + "/" + batchId)
         data = r.json()
         #print(data)
         status = data['state']
@@ -25,7 +25,7 @@ def checkStatus(**kwargs):
 
 def logPi(**kwargs):
     batchId = kwargs['ti'].xcom_pull(task_ids='checkStatus')
-    r = requests.get(url = URL + "/" + batchId + "/log")
+    r = requests.get(url = LIVY_URL + "/" + batchId + "/log")
     data = r.json()
     for line in data['log']:
         if line.startswith('Pi is'):
@@ -33,7 +33,7 @@ def logPi(**kwargs):
 
 def submitJob():
     payload = {"file": "local:///opt/spark/examples/jars/spark-examples_2.11-2.4.2.jar", "className": "org.apache.spark.examples.SparkPi", "args": ["1000"]}
-    r = requests.post(url = URL, data=json.dumps(payload), headers={"Content-Type": "application/json"})
+    r = requests.post(url = LIVY_URL, data=json.dumps(payload), headers={"Content-Type": "application/json"})
     data = r.json()
     print(data)
     id=data['id']
