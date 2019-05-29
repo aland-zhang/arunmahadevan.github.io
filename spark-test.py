@@ -9,7 +9,7 @@ import os
 LIVY_URL = 'http://spark-test-livy.spark-test/batches'
 
 def checkStatus(**kwargs):
-    batchId = kwargs['ti'].xcom_pull(task_ids='task1')
+    batchId = kwargs['ti'].xcom_pull(task_ids='submitJob')
     print('Waiting for batch id: ' + batchId + ' to complete')
     while True:
         time.sleep(5)
@@ -24,7 +24,7 @@ def checkStatus(**kwargs):
     return value
 
 def logPi(**kwargs):
-    batchId = kwargs['ti'].xcom_pull(task_ids='task2')
+    batchId = kwargs['ti'].xcom_pull(task_ids='checkStatus')
     r = requests.get(url = URL + "/" + batchId + "/log")
     data = r.json()
     for line in data['log']:
@@ -60,20 +60,20 @@ dag = DAG(
 )
 
 t1 = PythonOperator(
-    task_id='task1',
+    task_id='submitJob',
     python_callable=submitJob,
     dag=dag,
 )
 
 t2 = PythonOperator(
-    task_id='task2',
+    task_id='checkStatus',
     python_callable=checkStatus,
     provide_context=True,
     dag=dag,
 )
 
 t3 = PythonOperator(
-    task_id='task3',
+    task_id='getResult',
     python_callable=logPi,
     provide_context=True,
     dag=dag,
