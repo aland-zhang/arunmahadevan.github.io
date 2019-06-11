@@ -84,7 +84,7 @@ spec:
               containerPort: 8081
           volumeMounts:
             - name: dags-data
-              mountPath: {{ .Values.dags.path }}
+              mountPath: /dags
         - name: {{ .Chart.Name }}-web
           image: {{ .Values.airflow.image.repository }}:{{ .Values.airflow.image.tag }}
           imagePullPolicy: {{ .Values.airflow.image.pullPolicy}}

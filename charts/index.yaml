@@ -3,10 +3,10 @@ entries:
   airflow-test:
   - apiVersion: v1
     appVersion: 1.10.2
-    created: 2019-06-11T15:01:54.627257-07:00
+    created: 2019-06-11T15:20:19.11852-07:00
     description: Airflow is a platform to programmatically author, schedule and monitor
       workflows
-    digest: d00bad3da54832f47aa9614c7ffd13da53426557929ce41c80aa6c1702be402c
+    digest: 2a9ff5bb9d95b59b2a695c6b871c8884c18d98c7976755ceb27cfa3f13dc2c8c
     home: https://airflow.apache.org/
     icon: https://airflow.apache.org/_images/pin_large.png
     keywords:
@@ -21,9 +21,9 @@ entries:
   spark-test:
   - apiVersion: v1
     appVersion: 2.4.2
-    created: 2019-06-11T15:01:54.62907-07:00
+    created: 2019-06-11T15:20:19.12034-07:00
     description: A Helm chart for Spark cluster with Livy atop Kubernetes
-    digest: 372157940af63cbe6a866774df1b4f3ce527ef7e8996646305848177d05711ae
+    digest: 69367923740fcf2f48a9f6370d9ba5671b4fba61801c8ea92d8f3fa313dd3e94
     keywords:
     - livy
     - spark
@@ -35,7 +35,7 @@ entries:
   testapp:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-06-11T15:01:54.630556-07:00
+    created: 2019-06-11T15:20:19.12341-07:00
     description: A Helm chart for test app
     digest: 7d12976deb766bef5701500c66ca6ae355e453f32c5d00155e2994d54c3879f7
     name: testapp
@@ -44,7 +44,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-06-11T15:01:54.630169-07:00
+    created: 2019-06-11T15:20:19.122799-07:00
     description: A Helm chart for test app
     digest: 75376b60e0697cea7629c98a84c8f60547e9fe7dc1df8a8039c83c31d65918ae
     name: testapp
@@ -53,7 +53,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-06-11T15:01:54.629771-07:00
+    created: 2019-06-11T15:20:19.121629-07:00
     description: A Helm chart for test app
     digest: a4f3db4a517981766a0d944e4e66f1b4677474ad1b0f7c523c3c7256b0dfb505
     name: testapp
@@ -62,11 +62,11 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-06-11T15:01:54.629436-07:00
+    created: 2019-06-11T15:20:19.121067-07:00
     description: A Helm chart for test app
     digest: 815c263d11e3ed6329a3e6a8df5907adca69c0c00838f60e9422d00145cb44db
     name: testapp
     urls:
     - https://arunmahadevan.github.io/charts/testapp-0.1.0.tgz
     version: 0.1.0
-generated: 2019-06-11T15:01:54.621155-07:00
+generated: 2019-06-11T15:20:19.112815-07:00
