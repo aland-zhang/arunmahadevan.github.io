@@ -1,0 +1,35 @@
+apiVersion: v1
+entries:
+  airflow-test:
+  - apiVersion: v1
+    appVersion: 1.10.2
+    created: 2019-07-18T16:24:24.953918-07:00
+    description: Airflow is a platform to programmatically author, schedule and monitor
+      workflows
+    digest: 96ab3ad584bdce1822ac02df540d75dd9e2fcb3f497a5941a0ea4d2bb0c409b1
+    home: https://airflow.apache.org/
+    icon: https://airflow.apache.org/_images/pin_large.png
+    keywords:
+    - workflow
+    - dag
+    name: airflow-test
+    sources:
+    - https://airflow.apache.org/
+    urls:
+    - https://arunmahadevan.github.io/eks-charts/airflow-test-2.8.8.tgz
+    version: 2.8.8
+  spark-test:
+  - apiVersion: v1
+    appVersion: 2.4.2
+    created: 2019-07-18T16:24:24.955455-07:00
+    description: A Helm chart for Spark cluster with Livy atop Kubernetes
+    digest: 0dad3e9b6af6c3e5846e10f6327162583ed0ffec77fc5248d77a5b9c8bd933da
+    keywords:
+    - livy
+    - spark
+    - history-server
+    name: spark-test
+    urls:
+    - https://arunmahadevan.github.io/eks-charts/spark-test-0.1.0.tgz
+    version: 0.1.0
+generated: 2019-07-18T16:24:24.948896-07:00
