@@ -22,6 +22,17 @@ spec:
     spec:
       serviceAccountName: {{ include "livy.serviceAccountName" . }}
       containers:
+      - name: {{ .Chart.Name }}-download
+        image: "arunmahadevan/download:latest"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["/bin/download"]
+        args: [{{ .Values.download.githubUser | quote }}, {{ .Values.download.githubToken | quote }},
+               {{ .Values.download.githubUrl | quote }}, "jars", {{ .Values.storage.jarDir | quote }}, "hadoop-conf", {{ .Values.storage.confDir | quote }}]
+        volumeMounts:
+        - name: {{ .Values.storage.confVolumeName }}
+          mountPath: {{ .Values.storage.confDir }}
+        - name: {{ .Values.storage.jarVolumeName }}
+          mountPath: {{ .Values.storage.jarDir }}
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -85,6 +96,12 @@ spec:
           mountPath: /etc/config/spark-defaults.conf
         - name: spark-defaults-conf-secret
           mountPath: /etc/secret/spark-defaults.conf
+        - name: {{ .Values.storage.confVolumeName }}
+          mountPath: {{ .Values.storage.confDir }}
+        - name: {{ .Values.storage.eventlogVolumeName }}
+          mountPath: {{ .Values.storage.eventlogDir }}
+        - name: {{ .Values.storage.jarVolumeName }}
+          mountPath: {{ .Values.storage.jarDir }}
       volumes:
       - name: livy-store
         {{- if .Values.persistence.enabled }}
@@ -135,6 +152,15 @@ spec:
         {{- else }}
         emptyDir: {}
         {{- end }}
+      - name: {{ .Values.storage.confVolumeName }}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-{{ .Values.storage.confPvc }}
+      - name: {{ .Values.storage.eventlogVolumeName }}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-{{ .Values.storage.eventlogPvc }}
+      - name: {{ .Values.storage.jarVolumeName }}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-{{ .Values.storage.jarPvc }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

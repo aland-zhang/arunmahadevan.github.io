@@ -32,7 +32,7 @@ def logPi(**kwargs):
             print(line)
 
 def submitJob():
-    payload = {"file": "local:///opt/spark/examples/jars/spark-examples_2.11-2.4.2.jar", "className": "org.apache.spark.examples.SparkPi", "args": ["1000"]}
+    payload = {"file": "local:///opt/spark/examples/jars/spark-examples_2.11-2.4.2.3.1.3.0-32.jar", "className": "org.apache.spark.examples.SparkPi", "args": ["1000"]}
     r = requests.post(url = LIVY_URL, data=json.dumps(payload), headers={"Content-Type": "application/json"})
     data = r.json()
     print(data)

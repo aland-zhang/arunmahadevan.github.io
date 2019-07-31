@@ -10,6 +10,16 @@ nameOverride: ""
 fullnameOverride: ""
 
 livy:
+  storage:
+    confPvc: conf-pvc
+    confDir: /opt/hadoop/conf
+    confVolumeName: conf-volume
+    jarPvc: jar-pvc
+    jarDir: /opt/hadoop/jars
+    jarVolumeName: jar-volume
+    eventlogPvc: eventlog-pvc
+    eventlogDir: /tmp/history-server
+    eventlogVolumeName: eventlog-volume
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -25,6 +35,11 @@ livy:
     enabled: false
 
 historyserver:
+  storage:
+    enableStorage: true
+    eventlogPvc: eventlog-pvc
+    eventlogDir: /tmp/history-server
+    eventlogVolumeName: eventlog-volume
   image:
     repository: sasnouskikh/history-server
     tag: 2.4.0-lightbend
@@ -72,12 +87,6 @@ historyserver:
     # - secretName: spark-cluster-tls
     #   hosts:
     #   - cluster.example.com
-
-  pvc:
-    eventsDir: /tmp/history-server
-    existingClaimName: task-pv-claim
-  nfs:
-    enableExampleNFS: false
 # wasbs:
 #   enableWASBS: true
 #   sasKeyMode: true

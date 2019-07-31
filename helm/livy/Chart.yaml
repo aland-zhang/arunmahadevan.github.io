@@ -12,4 +12,4 @@ maintainers:
 name: livy
 sources:
 - https://github.com/jahstreet/incubator-livy/tree/v0.6.0-incubating-kubernetes-support
-version: 0.1.3
+version: 0.2.0
