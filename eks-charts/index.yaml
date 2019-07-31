@@ -3,10 +3,10 @@ entries:
   airflow-test:
   - apiVersion: v1
     appVersion: 1.10.2
-    created: 2019-07-30T22:05:56.112429-07:00
+    created: 2019-07-31T15:25:22.087232-07:00
     description: Airflow is a platform to programmatically author, schedule and monitor
       workflows
-    digest: be90e642cf39e1e6788a337bdeda65720c0e14da32f24c424e098ab80fa6cef1
+    digest: 2a2021a52094099aa022b846653dd0653bd17304ad9ef7f631157cf9e66ff88e
     home: https://airflow.apache.org/
     icon: https://airflow.apache.org/_images/pin_large.png
     keywords:
@@ -21,9 +21,9 @@ entries:
   dex-base:
   - apiVersion: v1
     appVersion: 0.0.1
-    created: 2019-07-30T22:05:56.113798-07:00
+    created: 2019-07-31T15:25:22.088713-07:00
     description: Base setup for Spark cluster with Livy atop Kubernetes
-    digest: abe087a9674dee2151c3d8ac8d277e2c379a11ebe56f69b2914ba4b57f868482
+    digest: dec697b7c945c0c1fe43b7811162579491c3f65b9c45ce26597c16ff313128a5
     name: dex-base
     urls:
     - https://arunmahadevan.github.io/eks-charts/dex-base-0.0.1.tgz
@@ -31,9 +31,9 @@ entries:
   spark-test:
   - apiVersion: v1
     appVersion: 2.4.2
-    created: 2019-07-30T22:05:56.117425-07:00
+    created: 2019-07-31T15:25:22.093025-07:00
     description: A Helm chart for Spark cluster with Livy atop Kubernetes
-    digest: a5decd80bd123a4f2be155d61a75227fad8da389d21e941ce7c0d3e44944b8d8
+    digest: b233477d727a5384fbe7a016061001f7767312480d70657bbf0baf083422a683
     keywords:
     - livy
     - spark
@@ -42,4 +42,17 @@ entries:
     urls:
     - https://arunmahadevan.github.io/eks-charts/spark-test-0.2.0.tgz
     version: 0.2.0
-generated: 2019-07-30T22:05:56.106054-07:00
+  - apiVersion: v1
+    appVersion: 2.4.2
+    created: 2019-07-31T15:25:22.091154-07:00
+    description: A Helm chart for Spark cluster with Livy atop Kubernetes
+    digest: 0dad3e9b6af6c3e5846e10f6327162583ed0ffec77fc5248d77a5b9c8bd933da
+    keywords:
+    - livy
+    - spark
+    - history-server
+    name: spark-test
+    urls:
+    - https://arunmahadevan.github.io/eks-charts/spark-test-0.1.0.tgz
+    version: 0.1.0
+generated: 2019-07-31T15:25:22.082237-07:00

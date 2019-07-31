@@ -19,7 +19,7 @@ download:
   githubUser: arunmahadevan
   githubUrl: https://github.com/arunmahadevan/airflow-test
   githubToken: dummy
-
+  env: {}
 storage:
     confPvc: conf-pvc
     confDir: /tmp/conf

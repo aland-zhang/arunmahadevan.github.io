@@ -33,6 +33,13 @@ spec:
           mountPath: {{ .Values.storage.confDir }}
         - name: {{ .Values.storage.jarVolumeName }}
           mountPath: {{ .Values.storage.jarDir }}
+        {{- if .Values.download.env }}
+        env:
+        {{- range $key, $val := .Values.download.env }}
+        - name: {{ $key }}
+          value: {{ $val | quote }}
+        {{- end }}
+        {{- end }}
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}

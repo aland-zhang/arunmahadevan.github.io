@@ -13,6 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 	"strconv"
+	"text/template"
 )
 
 type Config struct {
@@ -26,6 +27,8 @@ type Downloader struct {
 	conf   Config
 	client http.Client
 	sha    map[string]string
+	// values for template replacement e.g. Env -> {k:v ...}
+	tab map[string]map[string]string
 }
 
 func NewDownloader(userName string, password string, url string, downloadPath string) *Downloader {
@@ -41,11 +44,20 @@ func NewDownloader(userName string, password string, url string, downloadPath st
 	if _, err := os.Stat(d.conf.path); os.IsNotExist(err) {
 		os.MkdirAll(d.conf.path, 0755)
 	}
+	// load sha files
 	d.sha = make(map[string]string)
 	for _, shaFile := range shaFiles {
 		fileName := strings.TrimSuffix(path.Base(shaFile), ".sha")
 		d.sha[fileName] = readFile(shaFile)
 	}
+	d.tab = make(map[string]map[string]string)
+	// load env
+	env := make(map[string]string)
+	for _, s := range os.Environ() {
+		val := strings.SplitN(s, "=", 2)
+		env[val[0]] = val[1]
+	}
+	d.tab["Env"] = env
 	fmt.Println(d.conf.url, "->", d.conf.path)
 	return &d
 }
@@ -71,27 +83,49 @@ func (d *Downloader) CheckUpdates() {
 		url := fmt.Sprintf("%v", entry["download_url"])
 		size, _ := strconv.ParseInt(fmt.Sprintf("%v", entry["size"]), 10, 64)
 		if d.sha[name] != sha {
-			filePath := path.Join(d.conf.path, name)
-			fmt.Println("Downloading", url, "to", filePath)
-			tmpFilePath, err := ioutil.TempFile(d.conf.path, name)
+			destPath := path.Join(d.conf.path, name)
+			fmt.Println("Downloading", url)
+			tmpFile, err := ioutil.TempFile(d.conf.path, name)
 			handleErr(err)
-			n := d.download(url, tmpFilePath.Name())
-			tmpFilePath.Close()
+			n := d.download(url, tmpFile.Name())
+			tmpFile.Close()
 			// sometimes the files are cached so enforce size check
 			if n == size {
-				os.Rename(tmpFilePath.Name(), filePath)
+				src, dest := d.mayBeParse(tmpFile.Name(), destPath)
+				os.Rename(src, dest)
+				fmt.Println("Downloaded to", dest)
 				shaFile := path.Join(d.conf.path, name+".sha")
 				fmt.Println("Writing", shaFile)
 				writeFile(shaFile, sha)
 				d.sha[name] = sha
 				count = count + 1
 			} else {
-				os.Remove(tmpFilePath.Name())
+				os.Remove(tmpFile.Name())
 				log.Println("WARN: Expected size:", size, "Downloaded size:", n, ", will retry.")
 			}
 		}
 	}
 	fmt.Println("Path: ", d.conf.path, ", Updated", count, "files")
+}
+
+func (d *Downloader) mayBeParse(filePath string, dest string) (string, string) {
+	ext := filepath.Ext(dest)
+	if ext != ".tpl" && ext != ".tmpl" {
+		return filePath, dest
+	}
+	defer os.Remove(filePath)
+	fmt.Println("Parsing template", dest)
+	// the parsed template goes here
+	tmpFile, err := ioutil.TempFile(filepath.Dir(filePath), "tmpl")
+	defer tmpFile.Close()
+	handleErr(err)
+	b, err := ioutil.ReadFile(filePath)
+	handleErr(err)
+	t := template.New("output")
+	t.Parse(string(b))
+	// replace variables from tab
+	t.Execute(tmpFile, d.tab)
+	return tmpFile.Name(), strings.TrimSuffix(dest, ext)
 }
 
 func (d *Downloader) download(url string, filePath string) int64 {
