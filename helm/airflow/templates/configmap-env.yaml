@@ -19,6 +19,8 @@ data:
   REDIS_PORT: "{{ .Values.redis.master.port }}"
   ## Flower PORT
   FLOWER_PORT: "5555"
+  # TODO: someway to use livy.fullname here?
+  LIVY_HOST: "{{ .Release.Name }}-livy"
   # Configure puckel's docker-airflow entrypoint
   EXECUTOR: "{{ .Values.airflow.executor }}"
   FERNET_KEY: "{{ .Values.airflow.fernetKey }}"

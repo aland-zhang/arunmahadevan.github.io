@@ -7,7 +7,7 @@ icon: https://airflow.apache.org/_images/pin_large.png
 keywords:
 - workflow
 - dag
-name: airflow-test
+name: airflow
 sources:
 - https://airflow.apache.org/
 version: 2.8.8

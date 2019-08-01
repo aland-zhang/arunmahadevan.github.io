@@ -3,14 +3,12 @@ dependencies:
 - name: livy
   version: "0.2.*"
   repository: "file://../livy"
-  condition: livy.enabled,global.livy.enabled
-  tags:
-  - livy
 
 - name: spark-history-server
   version: "0.5.*"
   repository: "file://../spark-history-server"
-  condition: historyserver.enabled,global.historyserver.enabled
-  tags:
-  - historyserver
   alias: historyserver
+
+- name: airflow
+  version: "2.8.*"
+  repository: "file://../airflow"
