@@ -1,28 +1,55 @@
-{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: {{ template "livy.fullname" . }}
-{{- with .Values.persistence.annotations  }}
+  name: {{ .Release.Name }}-{{ .Values.storage.confPvc }}
+  namespace: {{ .Release.Namespace }}
   annotations:
-{{ toYaml . | indent 4 }}
-{{- end }}
-  labels:
-    app.kubernetes.io/name: {{ include "livy.name" . }}
-    helm.sh/chart: {{ include "livy.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    volume.beta.kubernetes.io/storage-class: {{ .Values.storage.storageClass | quote }}
 spec:
   accessModes:
-    - {{ .Values.persistence.accessMode | quote }}
+    - ReadWriteMany
   resources:
     requests:
-      storage: {{ .Values.persistence.size | quote }}
-{{- with .Values.persistence.storageClass }}
-{{- if (eq "-" .) }}
-  storageClassName: ""
-{{- else }}
-  storageClassName: "{{ . }}"
-{{- end }}
-{{- end }}
-{{- end }}
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.storage.jarPvc }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    volume.beta.kubernetes.io/storage-class: {{ .Values.storage.storageClass | quote }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 3Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.storage.eventlogPvc }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    volume.beta.kubernetes.io/storage-class: {{ .Values.storage.storageClass | quote }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 3Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.storage.livyStatePvc }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    volume.beta.kubernetes.io/storage-class: {{ .Values.storage.storageClass | quote }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
