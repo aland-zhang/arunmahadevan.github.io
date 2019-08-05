@@ -3,7 +3,7 @@ entries:
   airflow-test:
   - apiVersion: v1
     appVersion: 1.10.2
-    created: 2019-08-02T14:51:01.410495-07:00
+    created: 2019-08-05T01:24:21.912523-07:00
     description: Airflow is a platform to programmatically author, schedule and monitor
       workflows
     digest: 2a2021a52094099aa022b846653dd0653bd17304ad9ef7f631157cf9e66ff88e
@@ -21,9 +21,9 @@ entries:
   dex-app:
   - apiVersion: v1
     appVersion: 2.4.2
-    created: 2019-08-02T14:51:01.417037-07:00
+    created: 2019-08-05T01:24:21.918232-07:00
     description: A Helm chart for Spark cluster with Livy atop Kubernetes
-    digest: 1afeb3b200c21a696ac92342014a5080416c62b4174669bb76f26d6321932f8f
+    digest: db0ddabdf3461e5cbb47ab4902ca93be78e5994383d67aa92477365abde3ef2d
     keywords:
     - livy
     - spark
@@ -35,9 +35,9 @@ entries:
   dex-base:
   - apiVersion: v1
     appVersion: 0.0.1
-    created: 2019-08-02T14:51:01.418198-07:00
+    created: 2019-08-05T01:24:21.919316-07:00
     description: Base setup for Spark cluster with Livy atop Kubernetes
-    digest: 5cba9e0131de352a3c54b71811e1a9af9e0035069fac32d7ddee8fc7f96a7a9d
+    digest: 62c94edfd0fba1643bbb901c20428ddb458aa59c938450af90f53fe16e18ae8f
     name: dex-base
     urls:
     - https://arunmahadevan.github.io/eks-charts/dex-base-0.0.1.tgz
@@ -45,7 +45,7 @@ entries:
   spark-test:
   - apiVersion: v1
     appVersion: 2.4.2
-    created: 2019-08-02T14:51:01.422414-07:00
+    created: 2019-08-05T01:24:21.923431-07:00
     description: A Helm chart for Spark cluster with Livy atop Kubernetes
     digest: b233477d727a5384fbe7a016061001f7767312480d70657bbf0baf083422a683
     keywords:
@@ -58,7 +58,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 2.4.2
-    created: 2019-08-02T14:51:01.42034-07:00
+    created: 2019-08-05T01:24:21.921365-07:00
     description: A Helm chart for Spark cluster with Livy atop Kubernetes
     digest: 0dad3e9b6af6c3e5846e10f6327162583ed0ffec77fc5248d77a5b9c8bd933da
     keywords:
@@ -69,4 +69,4 @@ entries:
     urls:
     - https://arunmahadevan.github.io/eks-charts/spark-test-0.1.0.tgz
     version: 0.1.0
-generated: 2019-08-02T14:51:01.404381-07:00
+generated: 2019-08-05T01:24:21.906911-07:00

@@ -9,6 +9,11 @@ tags:
 nameOverride: ""
 fullnameOverride: ""
 
+airflow:
+  postgresql:
+    persistence:
+      storageClass: "aws-efs"
+
 livy:
   storage:
     confPvc: conf-pvc
